@@ -37,3 +37,21 @@ function hash_password($password) {
  * @param string $hashed
  * @return bool
  */
+function verify_password($password, $hashed) {
+    return password_verify($password, $hashed);
+}
+
+/**
+ * Log out user - destroy session
+ */
+function logout() {
+    // Unset all session variables
+    $_SESSION = [];
+    
+    // Destroy the session
+    session_destroy();
+    
+    // Redirect to login page
+    redirect('login.php');
+}
+?>
