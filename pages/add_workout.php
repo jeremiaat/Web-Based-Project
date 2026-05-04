@@ -6,12 +6,10 @@ require_login();
 $errors = [];
 $success = '';
 
-// Handle workout deletion
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $workout_id = (int)$_GET['delete'];
     $user_id = $_SESSION['user_id'];
     
-    // Verify workout belongs to current user
     $check_sql = "SELECT id FROM workouts WHERE id = $workout_id AND user_id = $user_id";
     $result = $conn->query($check_sql);
     
@@ -27,7 +25,6 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     }
 }
 
-// Handle workout addition
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = sanitize($conn, $_POST['type']);
     $duration = (int)$_POST['duration'];
@@ -35,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $date = sanitize($conn, $_POST['date']);
     $user_id = $_SESSION['user_id'];
     
-    // Validation
     if (empty($type)) {
         $errors[] = "Workout type is required";
     }
@@ -52,14 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = "Date is required";
     }
     
-    // If no errors, add workout
     if (empty($errors)) {
         $sql = "INSERT INTO workouts (user_id, type, duration, calories_burned, date) 
                 VALUES ($user_id, '$type', $duration, $calories_burned, '$date')";
         
         if ($conn->query($sql)) {
             $success = "Workout added successfully!";
-            // Clear form
             $type = $duration = $calories_burned = $date = '';
         } else {
             $errors[] = "Failed to add workout. Please try again.";
@@ -67,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Get user's workouts
 $user_id = $_SESSION['user_id'];
 $workouts_sql = "SELECT * FROM workouts WHERE user_id = $user_id ORDER BY date DESC, created_at DESC";
 $workouts_result = $conn->query($workouts_sql);
@@ -89,7 +82,6 @@ $workouts_result = $conn->query($workouts_sql);
 <?php endif; ?>
 
 <div class="form-page-grid">
-    <!-- Add Workout Form -->
     <div class="form-card">
         <h3>Add New Workout</h3>
         <form method="POST" action="" onsubmit="return validateWorkoutForm()">
@@ -134,7 +126,6 @@ $workouts_result = $conn->query($workouts_sql);
         </form>
     </div>
     
-    <!-- Recent Workouts List -->
     <div class="list-card">
         <h3>Recent Workouts</h3>
         
