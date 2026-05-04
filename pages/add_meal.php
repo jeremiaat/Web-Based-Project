@@ -6,12 +6,12 @@ require_login();
 $errors = [];
 $success = '';
 
-// Handle meal deletion
+
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $meal_id = (int)$_GET['delete'];
     $user_id = $_SESSION['user_id'];
     
-    // Verify meal belongs to current user
+
     $check_sql = "SELECT id FROM meals WHERE id = $meal_id AND user_id = $user_id";
     $result = $conn->query($check_sql);
     
@@ -27,14 +27,14 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     }
 }
 
-// Handle meal addition
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meal_name = sanitize($conn, $_POST['meal_name']);
     $calories = (int)$_POST['calories'];
     $date = sanitize($conn, $_POST['date']);
     $user_id = $_SESSION['user_id'];
     
-    // Validation
+
     if (empty($meal_name)) {
         $errors[] = "Meal name is required";
     }
@@ -47,14 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = "Date is required";
     }
     
-    // If no errors, add meal
+
     if (empty($errors)) {
         $sql = "INSERT INTO meals (user_id, meal_name, calories, date) 
                 VALUES ($user_id, '$meal_name', $calories, '$date')";
         
         if ($conn->query($sql)) {
             $success = "Meal added successfully!";
-            // Clear form
+           
             $meal_name = $calories = $date = '';
         } else {
             $errors[] = "Failed to add meal. Please try again.";
@@ -62,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Get user's meals
 $user_id = $_SESSION['user_id'];
 $meals_sql = "SELECT * FROM meals WHERE user_id = $user_id ORDER BY date DESC, created_at DESC";
 $meals_result = $conn->query($meals_sql);
@@ -84,7 +83,7 @@ $meals_result = $conn->query($meals_sql);
 <?php endif; ?>
 
 <div class="form-page-grid">
-    <!-- Add Meal Form -->
+
     <div class="form-card">
         <h3>Add New Meal</h3>
         <form method="POST" action="" onsubmit="return validateMealForm()">
@@ -110,7 +109,7 @@ $meals_result = $conn->query($meals_sql);
         </form>
     </div>
     
-    <!-- Recent Meals List -->
+
     <div class="list-card">
         <h3>Recent Meals</h3>
         
