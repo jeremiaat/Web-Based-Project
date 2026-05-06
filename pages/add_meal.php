@@ -5,25 +5,26 @@ require_login();
 
 $errors = [];
 $success = '';
+$user_id = $_SESSION['user_id'];
+$meal_name = $calories = $date = '';
 
 
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $meal_id = (int)$_GET['delete'];
-    $user_id = $_SESSION['user_id'];
     
 
-    $check_sql = "SELECT id FROM meals WHERE id = $meal_id AND user_id = $user_id";
-    $result = $conn->query($check_sql);
+    $check_meal_exists_sql = "SELECT `id` FROM `meals` WHERE `id` = " . $meal_id . " AND `user_id` = " . $user_id;
+    $result = $conn->query($check_meal_exists_sql);
     
     if ($result->num_rows == 1) {
-        $delete_sql = "DELETE FROM meals WHERE id = $meal_id AND user_id = $user_id";
-        if ($conn->query($delete_sql)) {
-            $success = "Meal deleted successfully!";
+        $delete_meal_sql = "DELETE FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
+        if ($conn->query($delete_meal_sql)) {
+            $success = 'Meal deleted successfully!';
         } else {
-            $errors[] = "Failed to delete meal.";
+            $errors[] = 'Failed to delete meal.';
         }
     } else {
-        $errors[] = "Meal not found.";
+        $errors[] = 'Meal not found.';
     }
 }
 
@@ -32,38 +33,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meal_name = sanitize($conn, $_POST['meal_name']);
     $calories = (int)$_POST['calories'];
     $date = sanitize($conn, $_POST['date']);
-    $user_id = $_SESSION['user_id'];
     
 
     if (empty($meal_name)) {
-        $errors[] = "Meal name is required";
+        $errors[] = 'Meal name is required';
     }
     
     if (empty($calories) || $calories <= 0) {
-        $errors[] = "Calories must be greater than 0";
+        $errors[] = 'Calories must be greater than 0';
     }
     
     if (empty($date)) {
-        $errors[] = "Date is required";
+        $errors[] = 'Date is required';
     }
     
 
     if (empty($errors)) {
-        $sql = "INSERT INTO meals (user_id, meal_name, calories, date) 
-                VALUES ($user_id, '$meal_name', $calories, '$date')";
+        $insert_meal_sql = "INSERT INTO `meals` (`user_id`, `meal_name`, `calories`, `date`) 
+                           VALUES (" . $user_id . ", '" . $meal_name . "', " . $calories . ", '" . $date . "')";
         
-        if ($conn->query($sql)) {
-            $success = "Meal added successfully!";
+        if ($conn->query($insert_meal_sql)) {
+            $success = 'Meal added successfully!';
            
-            $meal_name = $calories = $date = '';
         } else {
-            $errors[] = "Failed to add meal. Please try again.";
+            $errors[] = 'Failed to add meal. Please try again.';
         }
     }
 }
 
-$user_id = $_SESSION['user_id'];
-$meals_sql = "SELECT * FROM meals WHERE user_id = $user_id ORDER BY date DESC, created_at DESC";
+
+$meals_sql = "SELECT * FROM `meals` WHERE `user_id` = $user_id ORDER BY `date` DESC, `created_at` DESC";
 $meals_result = $conn->query($meals_sql);
 ?>
 
@@ -73,12 +72,12 @@ $meals_result = $conn->query($meals_sql);
 </div>
 
 <?php if ($success): ?>
-    <?php echo success_message($success); ?>
+    <?= success_message($success) ?>
 <?php endif; ?>
 
 <?php if (!empty($errors)): ?>
     <?php foreach ($errors as $error): ?>
-        <?php echo error_message($error); ?>
+        <?= error_message($error) ?>
     <?php endforeach; ?>
 <?php endif; ?>
 
@@ -89,17 +88,17 @@ $meals_result = $conn->query($meals_sql);
         <form method="POST" action="" onsubmit="return validateMealForm()">
             <div class="form-group">
                 <label for="meal_name">Meal Name</label>
-                <input type="text" id="meal_name" name="meal_name" placeholder="e.g., Breakfast - Oatmeal with berries" required>
+                <input id="meal_name" name="meal_name" type="text" placeholder="e.g., Breakfast - Oatmeal with berries" required>
             </div>
             
             <div class="form-group">
                 <label for="calories">Calories</label>
-                <input type="number" id="calories" name="calories" min="1" max="5000" required>
+                <input id="calories" name="calories" type="number" min="1" max="5000" required>
             </div>
             
             <div class="form-group">
                 <label for="date">Date</label>
-                <input type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>" required>
+                <input id="date" name="date" type="date" value="<?= date('Y-m-d') ?>" required>
             </div>
             
             <button type="submit" class="btn btn-primary">
@@ -118,12 +117,12 @@ $meals_result = $conn->query($meals_sql);
                 <?php while ($meal = $meals_result->fetch_assoc()): ?>
                     <div class="list-item">
                         <div class="list-item-info">
-                            <h4><?php echo htmlspecialchars($meal['meal_name']); ?></h4>
-                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">local_fire_department</span> <?php echo $meal['calories']; ?> cal</p>
-                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">calendar_today</span> <?php echo date('M j, Y', strtotime($meal['date'])); ?></p>
+                            <h4><?= htmlspecialchars($meal['meal_name']) ?></h4>
+                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">local_fire_department</span> <?= $meal['calories'] ?> cal</p>
+                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">calendar_today</span> <?= date('M j, Y', strtotime($meal['date'])) ?></p>
                         </div>
                         <div class="list-item-actions">
-                            <a href="?delete=<?php echo $meal['id']; ?>" 
+                            <a href="?delete=<?= $meal['id'] ?>" 
                                class="btn btn-danger btn-sm" 
                                onclick="return confirm('Are you sure you want to delete this meal?')">Delete</a>
                         </div>
