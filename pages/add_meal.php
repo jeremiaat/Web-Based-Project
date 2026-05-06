@@ -18,12 +18,12 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     if ($result->num_rows == 1) {
         $delete_sql = "DELETE FROM meals WHERE id = $meal_id AND user_id = $user_id";
         if ($conn->query($delete_sql)) {
-            $success = "Meal deleted successfully!";
+            $success = 'Meal deleted successfully!';
         } else {
-            $errors[] = "Failed to delete meal.";
+            $errors[] = 'Failed to delete meal.';
         }
     } else {
-        $errors[] = "Meal not found.";
+        $errors[] = 'Meal not found.';
     }
 }
 
@@ -36,15 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 
     if (empty($meal_name)) {
-        $errors[] = "Meal name is required";
+        $errors[] = 'Meal name is required';
     }
     
     if (empty($calories) || $calories <= 0) {
-        $errors[] = "Calories must be greater than 0";
+        $errors[] = 'Calories must be greater than 0';
     }
     
     if (empty($date)) {
-        $errors[] = "Date is required";
+        $errors[] = 'Date is required';
     }
     
 
@@ -53,11 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 VALUES ($user_id, '$meal_name', $calories, '$date')";
         
         if ($conn->query($sql)) {
-            $success = "Meal added successfully!";
+            $success = 'Meal added successfully!';
            
             $meal_name = $calories = $date = '';
         } else {
-            $errors[] = "Failed to add meal. Please try again.";
+            $errors[] = 'Failed to add meal. Please try again.';
         }
     }
 }
