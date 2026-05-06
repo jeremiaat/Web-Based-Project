@@ -12,11 +12,11 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $user_id = $_SESSION['user_id'];
     
 
-    $check_sql = "SELECT id FROM meals WHERE id = $meal_id AND user_id = $user_id";
+    $check_sql = "SELECT `id` FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
     $result = $conn->query($check_sql);
     
     if ($result->num_rows == 1) {
-        $delete_sql = "DELETE FROM meals WHERE id = $meal_id AND user_id = $user_id";
+        $delete_sql = "DELETE FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
         if ($conn->query($delete_sql)) {
             $success = 'Meal deleted successfully!';
         } else {
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 
     if (empty($errors)) {
-        $sql = "INSERT INTO meals (user_id, meal_name, calories, date) 
+        $sql = "INSERT INTO `meals` (`user_id`, `meal_name`, `calories`, `date`) 
                 VALUES ($user_id, '$meal_name', $calories, '$date')";
         
         if ($conn->query($sql)) {
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $user_id = $_SESSION['user_id'];
-$meals_sql = "SELECT * FROM meals WHERE user_id = $user_id ORDER BY date DESC, created_at DESC";
+$meals_sql = "SELECT * FROM `meals` WHERE `user_id` = $user_id ORDER BY `date` DESC, `created_at` DESC";
 $meals_result = $conn->query($meals_sql);
 ?>
 
