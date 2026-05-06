@@ -12,12 +12,12 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $user_id = $_SESSION['user_id'];
     
 
-    $check_sql = "SELECT `id` FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
-    $result = $conn->query($check_sql);
+    $check_meal_exists_sql = "SELECT `id` FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
+    $result = $conn->query($check_meal_exists_sql);
     
     if ($result->num_rows == 1) {
-        $delete_sql = "DELETE FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
-        if ($conn->query($delete_sql)) {
+        $delete_meal_sql = "DELETE FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
+        if ($conn->query($delete_meal_sql)) {
             $success = 'Meal deleted successfully!';
         } else {
             $errors[] = 'Failed to delete meal.';
@@ -49,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 
     if (empty($errors)) {
-        $sql = "INSERT INTO `meals` (`user_id`, `meal_name`, `calories`, `date`) 
+        $insert_meal_sql = "INSERT INTO `meals` (`user_id`, `meal_name`, `calories`, `date`) 
                 VALUES ($user_id, '$meal_name', $calories, '$date')";
         
-        if ($conn->query($sql)) {
+        if ($conn->query($insert_meal_sql)) {
             $success = 'Meal added successfully!';
            
             $meal_name = $calories = $date = '';
