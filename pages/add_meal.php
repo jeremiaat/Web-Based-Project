@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         $insert_meal_sql = "INSERT INTO `meals` (`user_id`, `meal_name`, `calories`, `date`) 
-                VALUES (" . $user_id . ", '" . $meal_name . "', " . $calories . ", '" . $date . "')";
+                           VALUES (" . $user_id . ", '" . $meal_name . "', " . $calories . ", '" . $date . "')";
         
         if ($conn->query($insert_meal_sql)) {
             $success = 'Meal added successfully!';
