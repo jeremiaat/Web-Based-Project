@@ -6,6 +6,7 @@ require_login();
 $errors = [];
 $success = '';
 $user_id = $_SESSION['user_id'];
+$meal_name = $calories = $date = '';
 
 
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
@@ -54,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($conn->query($insert_meal_sql)) {
             $success = 'Meal added successfully!';
            
-            $meal_name = $calories = $date = '';
         } else {
             $errors[] = 'Failed to add meal. Please try again.';
         }
