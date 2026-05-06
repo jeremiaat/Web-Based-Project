@@ -12,7 +12,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $meal_id = (int)$_GET['delete'];
     
 
-    $check_meal_exists_sql = "SELECT `id` FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
+    $check_meal_exists_sql = "SELECT `id` FROM `meals` WHERE `id` = " . $meal_id . " AND `user_id` = " . $user_id;
     $result = $conn->query($check_meal_exists_sql);
     
     if ($result->num_rows == 1) {
