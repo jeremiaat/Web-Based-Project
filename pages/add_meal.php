@@ -5,11 +5,11 @@ require_login();
 
 $errors = [];
 $success = '';
+$user_id = $_SESSION['user_id'];
 
 
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $meal_id = (int)$_GET['delete'];
-    $user_id = $_SESSION['user_id'];
     
 
     $check_meal_exists_sql = "SELECT `id` FROM `meals` WHERE `id` = $meal_id AND `user_id` = $user_id";
@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meal_name = sanitize($conn, $_POST['meal_name']);
     $calories = (int)$_POST['calories'];
     $date = sanitize($conn, $_POST['date']);
-    $user_id = $_SESSION['user_id'];
     
 
     if (empty($meal_name)) {
@@ -62,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$user_id = $_SESSION['user_id'];
+
 $meals_sql = "SELECT * FROM `meals` WHERE `user_id` = $user_id ORDER BY `date` DESC, `created_at` DESC";
 $meals_result = $conn->query($meals_sql);
 ?>
