@@ -72,12 +72,12 @@ $meals_result = $conn->query($meals_sql);
 </div>
 
 <?php if ($success): ?>
-    <?php echo success_message($success); ?>
+    <?= success_message($success) ?>
 <?php endif; ?>
 
 <?php if (!empty($errors)): ?>
     <?php foreach ($errors as $error): ?>
-        <?php echo error_message($error); ?>
+        <?= error_message($error) ?>
     <?php endforeach; ?>
 <?php endif; ?>
 
@@ -98,7 +98,7 @@ $meals_result = $conn->query($meals_sql);
             
             <div class="form-group">
                 <label for="date">Date</label>
-                <input id="date" name="date" type="date" value="<?php echo date('Y-m-d'); ?>" required>
+                <input id="date" name="date" type="date" value="<?= date('Y-m-d') ?>" required>
             </div>
             
             <button type="submit" class="btn btn-primary">
@@ -117,12 +117,12 @@ $meals_result = $conn->query($meals_sql);
                 <?php while ($meal = $meals_result->fetch_assoc()): ?>
                     <div class="list-item">
                         <div class="list-item-info">
-                            <h4><?php echo htmlspecialchars($meal['meal_name']); ?></h4>
-                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">local_fire_department</span> <?php echo $meal['calories']; ?> cal</p>
-                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">calendar_today</span> <?php echo date('M j, Y', strtotime($meal['date'])); ?></p>
+                            <h4><?= htmlspecialchars($meal['meal_name']) ?></h4>
+                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">local_fire_department</span> <?= $meal['calories'] ?> cal</p>
+                            <p><span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">calendar_today</span> <?= date('M j, Y', strtotime($meal['date'])) ?></p>
                         </div>
                         <div class="list-item-actions">
-                            <a href="?delete=<?php echo $meal['id']; ?>" 
+                            <a href="?delete=<?= $meal['id'] ?>" 
                                class="btn btn-danger btn-sm" 
                                onclick="return confirm('Are you sure you want to delete this meal?')">Delete</a>
                         </div>
