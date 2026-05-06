@@ -88,17 +88,17 @@ $meals_result = $conn->query($meals_sql);
         <form method="POST" action="" onsubmit="return validateMealForm()">
             <div class="form-group">
                 <label for="meal_name">Meal Name</label>
-                <input type="text" id="meal_name" name="meal_name" placeholder="e.g., Breakfast - Oatmeal with berries" required>
+                <input id="meal_name" name="meal_name" type="text" placeholder="e.g., Breakfast - Oatmeal with berries" required>
             </div>
             
             <div class="form-group">
                 <label for="calories">Calories</label>
-                <input type="number" id="calories" name="calories" min="1" max="5000" required>
+                <input id="calories" name="calories" type="number" min="1" max="5000" required>
             </div>
             
             <div class="form-group">
                 <label for="date">Date</label>
-                <input type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>" required>
+                <input id="date" name="date" type="date" value="<?php echo date('Y-m-d'); ?>" required>
             </div>
             
             <button type="submit" class="btn btn-primary">
