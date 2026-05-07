@@ -22,9 +22,7 @@ $page_title = $page_title ?? 'Fitness Tracker';
             <h1><i class="fas fa-dumbbell"></i> Fitness Tracker</h1>
         </div>
         
-        <!-- Page Content Start -->
-        <?php echo $content ?? ''; ?>
-        <!-- Page Content End -->
+
         
         <div class="auth-footer">
             <p>&copy; <?php echo date('Y'); ?> Fitness Tracker. All rights reserved.</p>
