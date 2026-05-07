@@ -81,19 +81,5 @@ function format_calories($calories) {
  * @param float $height in cm
  * @return float
  */
-function calculate_bmi($weight, $height) {
-    if (!$weight || !$height) {
-        return 0;
-    }
-    return $weight / (($height / 100) ** 2);
-}
 
-/**
- * Get goal display name
- * @param string $goal
- * @return string
- */
-function get_goal_display($goal) {
-    return ucfirst(str_replace('_', ' ', $goal ?: 'Not set'));
-}
 ?>
