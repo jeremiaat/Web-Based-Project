@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     
-    // If no errors, update user
+    // If no errors, update user data
     if (empty($errors)) {
         $sql = "UPDATE users SET name = '$name', email = '$email', age = $age, weight = $weight, height = $height, goal = '$goal' WHERE id = $user_id";
         
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <div class="page-header">
-    <h1 class="page-title">My Profile</h1>
+    <h1 class="page-title">My Fitness Profile</h1>
     <p class="page-subtitle">Update your personal information and fitness goals</p>
 </div>
 

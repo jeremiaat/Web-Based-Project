@@ -1,5 +1,5 @@
 <?php
-$page_title = 'Add Workout';
+$page_title = 'Add your Workout';
 require_once __DIR__ . '/../core/header.php';
 require_login();
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     
     if (empty($duration) || $duration <= 0) {
-        $errors[] = "Duration must be greater than 0";
+        $errors[] = "Duration must be greater than 0, work hard";
     }
     
     if (empty($calories_burned) || $calories_burned <= 0) {
