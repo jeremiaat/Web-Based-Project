@@ -308,3 +308,4 @@ const weeklyChart = new Chart(ctx, {
 </script>
 
 <?php include __DIR__ . '/../core/footer.php'; ?>
+
