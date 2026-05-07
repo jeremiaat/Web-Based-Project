@@ -85,7 +85,6 @@ $burned_pct = min(100, round(($burned_calories / 1200) * 100)); // Based on 1200
         </div>
         <div class="metric-detail"><?php echo $consumed_pct; ?>% of daily target (<?php echo number_format($target_calories); ?> kcal)</div>
     </div>
-
     <!-- Calories Burned -->
     <div class="metric-card">
         <div class="metric-header">
